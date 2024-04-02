@@ -9,7 +9,13 @@ Step 4: Configure Firewall
 - sudo ufw allow ‘Apache’
 - sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 - sudo ufw allow 80/tcp
+- sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+- sudo ufw allow 443/tcp
 
+sudo nano /etc/apache2/apache2.conf
+- Listen 192.168.56.102:80
+- Listen 192.168.56.102:443
+-
 
 Step 5: Configure apache
 - sudo systemctl status apache 2  
@@ -39,25 +45,42 @@ CLICK TO DOWNLOAD THE CODE TO PUT IN webApp.conf
 https://dev-cms.us-east-1.linodeobjec...
 
 
-VirtualHost *:80>
+  GNU nano 2.9.3                                                   /etc/apache2/sites-available/webApp.conf                                                             
+
+<VirtualHost *:80>
                 ServerName 192.168.56.102
-
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-                WSGIDaemonProcess webApp user=vagrant threads=5
-                WSGIProcessGroup webApp
-                WSGIScriptAlias / /var/www/webApp/webapp.wsgi
-
                 <Directory /var/www/webApp/>
                         WSGIProcessGroup webApp
                         WSGIApplicationGroup %{GLOBAL}
                         Order deny,allow
                         Allow from all
                 </Directory>
-                SSLCertificateFile /var/www/webApp/cert.pem
-   		SSLCertificateKeyFile /var/www/webApp/key.pem
 </VirtualHost>
+
+<VirtualHost *:443>
+    DocumentRoot /var/www/webApp/
+    ServerName 192.168.56.102
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    WSGIDaemonProcess webApp user=vagrant threads=5
+    WSGIProcessGroup webApp
+    WSGIScriptAlias / /var/www/webApp/webapp.wsgi
+
+    <Directory /var/www/webApp/>
+            WSGIProcessGroup webApp
+            WSGIApplicationGroup %{GLOBAL}
+            Order deny,allow
+            Allow from all
+    </Directory>
+
+    SSLEngine on
+    SSLCertificateFile /var/www/webApp/cert.pem
+    SSLCertificateKeyFile /var/www/webApp/key.pem
+</VirtualHost>
+
+
 
 
 -sudo a2dissite 000-default.conf &&
