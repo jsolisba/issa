@@ -1,0 +1,84 @@
+Step 3: Download and Install Apache
+- sudo apt update
+- sudo apt install apache2
+- apache2 -version
+- sudo apt-get install libapache2-mod-wsgi-py3
+
+Step 4: Configure Firewall
+- sudo ufw app list
+- sudo ufw allow ‘Apache’
+- sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+- sudo ufw allow 80/tcp
+
+
+Step 5: Configure apache
+- sudo systemctl status apache 2  
+
+Step 6: Install and enable mod_wsgi
+-       sudo apt-get install libapache2-mod-wsgi python-dev
+
+Step 7:  Creating flask app
+-       cd /var/www 
+-       sudo mkdir webApp
+-       cd webApp
+-       sudo mkdir miwebApp
+-       cd miwebApp
+-       scp /home/juans/issa/issabackend/__init__.py vagrant@192.168.56.102:/var/www/webApp/miwebapp/
+
+Step 8: Install flask
+-        sudo apt-get install python-pip 
+-        sudo pip install Flask 
+-        sudo pip install flask_sqlalchemy
+- /usr/bin/python3 -m pip install --beautifulsoup4
+
+
+Step 10: configure and enable virtual host
+-       sudo nano /etc/apache2/sites-available/webApp.conf
+
+CLICK TO DOWNLOAD THE CODE TO PUT IN webApp.conf
+https://dev-cms.us-east-1.linodeobjec...
+
+
+VirtualHost *:80>
+                ServerName 192.168.56.102
+
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+                WSGIDaemonProcess webApp user=vagrant threads=5
+                WSGIProcessGroup webApp
+                WSGIScriptAlias / /var/www/webApp/webapp.wsgi
+
+                <Directory /var/www/webApp/>
+                        WSGIProcessGroup webApp
+                        WSGIApplicationGroup %{GLOBAL}
+                        Order deny,allow
+                        Allow from all
+                </Directory>
+</VirtualHost>
+
+
+-sudo a2dissite 000-default.conf &&
+sudo a2ensite webApp.conf
+-      sudo a2ensite webApp 
+-      sudo systemctl reload apache2
+
+Step 11: Create .wsgi file
+-      sudo nano webapp.wsgi 
+Place the below code in the wsgi file
+
+
+import sys
+
+sys.path.insert(0, '/var/www/webApp/miwebApp')
+
+from __init__ import app as application
+
+
+Step 12: Restart apache
+-      sudo service apache2 restart 
+
+Step 13: 
+- Hostname -i copy IP
+- Visit the ip address of your server in the browser to  access your website!
+

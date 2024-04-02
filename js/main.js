@@ -8,7 +8,36 @@ jQuery(document).ready(function($) {
 
 	"use strict";
 
+	document.getElementById('contactForm').addEventListener('submit', function(event) {
+		event.preventDefault();
+		
+		let formData = new FormData();
+		formData.append('nombre', document.getElementById('nombre').value);
+		formData.append('apellido', document.getElementById('apellido').value);
+		formData.append('correo', document.getElementById('correo').value);
+		formData.append('puesto', document.getElementById('puesto').value);
+		formData.append('empresa', document.getElementById('empresa').value);
+		formData.append('mensaje', document.getElementById('mensaje').value);
 
+		fetch('http://127.0.0.1:5000/email', {
+			method: 'POST',
+			body: formData,
+			enctype:"multipart/form-data"
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.status === 'success') {
+				// Realizar acciones adicionales si la solicitud es exitosa
+				console.log(data.message);
+			} else {
+				// Manejar el error si la solicitud falla
+				console.error(data.message);
+			}
+		})
+		
+		.catch(error => console.error('Error:', error));
+	});
+	
 
 	var siteMenuClone = function() {
 

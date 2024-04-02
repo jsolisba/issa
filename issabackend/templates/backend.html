@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ISSA</title>
+</head>
+<body>
+    <p>{{ mensaje }}</p>
+    <p>Redireccionando...</p>
+    <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('ruta_en_el_frontend') }}";
+        }, 3000); // Redirige después de 3 segundos
+    </script>
+</body>
+</html>
+

@@ -63,7 +63,7 @@
         <div class="container">
           <div class="row align-items-center position-relative">
             <div class="site-logo">
-              <img src="images/logo.jpg" class="text-black"><span class="text-primary"></span>
+              <img src="images/logo.jpeg" class="text-black"><span class="text-primary"></span>
 
     
             </div>
@@ -86,6 +86,7 @@
                   </li>
 
                   <li><a href="whyus.html" class="nav-link">Por que ISSA?</a></li>
+                  <li><a href="contact.html" class="nav-link">Cont&aacute;ctenos</a></li>
 
 <!-- 
                   <li><a href="#testimonials-section" class="nav-link">Testimonios</a></li>
@@ -117,43 +118,44 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-lg-8 mb-5" data-aos="fade-up" data-aos-delay="100">
-              <form action="#" method="post">
+              <!--<form id="contactForm">-->
+              <form action="http://192.168.56.102:80/email" method="post" enctype="multipart/form-data">
                 <div class="form-group row">
                   <div class="col-md-6 mb-4 mb-lg-0">
-                    <input type="text" class="form-control" placeholder="Nombre">
+                    <input type="text"  class="form-control" placeholder="Nombre" name="nombre">
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Apellido">
+                    <input type="text" class="form-control" placeholder="Apellido"  name="apellido">
                   </div>
                 </div>
   
                 <div class="form-group row">
                   <div class="col-md-12">
-                    <input type="text" class="form-control" placeholder="Correo Electr&oacute;nico">
+                    <input type="text" class="form-control" placeholder="Correo Electr&oacute;nico" name="correo">
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <div class="col-md-12">
-                    <input type="text" class="form-control" placeholder="Puesto">
+                    <input type="text" class="form-control" placeholder="Puesto" name="puesto">
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <div class="col-md-12">
-                    <input type="text" class="form-control" placeholder="Empresa">
+                    <input type="text" class="form-control" placeholder="Empresa" name="empresa">
                   </div>
                 </div>
 
 
                 <div class="form-group row">
                   <div class="col-md-12">
-                    <textarea name="" id="" class="form-control" placeholder="Escriba su mensaje" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" name="mensaje" rows="10" cols="50"></textarea>
                   </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-md-6 mr-auto">
-                    <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="Env&iacute;e su mensaje">
+                    <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="Submit">
                   </div>
                 </div>
               </form>
