@@ -55,6 +55,8 @@ VirtualHost *:80>
                         Order deny,allow
                         Allow from all
                 </Directory>
+                SSLCertificateFile /var/www/webApp/cert.pem
+   		SSLCertificateKeyFile /var/www/webApp/key.pem
 </VirtualHost>
 
 
