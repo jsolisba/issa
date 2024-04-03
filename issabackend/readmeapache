@@ -15,7 +15,7 @@ Step 4: Configure Firewall
 sudo nano /etc/apache2/apache2.conf
 - Listen 192.168.56.102:80
 - Listen 192.168.56.102:443
--
+- ServerName 192.168.56.102
 
 Step 5: Configure apache
 - sudo systemctl status apache 2  
@@ -40,6 +40,11 @@ Step 8: Install flask
 
 Step 10: configure and enable virtual host
 -       sudo nano /etc/apache2/sites-available/webApp.conf
+
+
+Crear certificato autofirmado ssl
+- openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /var/www/webApp/key.pem -out /var/www/webApp/cert.pem
+
 
 CLICK TO DOWNLOAD THE CODE TO PUT IN webApp.conf
 https://dev-cms.us-east-1.linodeobjec...
@@ -80,7 +85,10 @@ https://dev-cms.us-east-1.linodeobjec...
     SSLCertificateKeyFile /var/www/webApp/key.pem
 </VirtualHost>
 
-
+--Probar virtualhost
+apachectl configtest
+apache2ctl configtest
+apachectl restart
 
 
 -sudo a2dissite 000-default.conf &&
