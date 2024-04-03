@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
 
 	"use strict";
 
-	document.getElementById('contactForm').addEventListener('submit', function(event) {
+/* 	document.getElementById('contactForm').addEventListener('submit', function(event) {
 		event.preventDefault();
 		
 		let formData = new FormData();
@@ -37,7 +37,7 @@ jQuery(document).ready(function($) {
 		
 		.catch(error => console.error('Error:', error));
 	});
-	
+	 */
 
 	var siteMenuClone = function() {
 
