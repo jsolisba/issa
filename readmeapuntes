@@ -1,0 +1,332 @@
+Apuntes importantes 
+GIT
+
+Configurar usuario Git
+- git config --global user.name "jsolisba"
+- git config --global user.email "juan.solis07@gmail.com"
+Crear SSH Key
+- ssh-keygen
+Clonar Repo
+- git clone https://
+Saber en que branch estoy posicionado
+- git branch
+crear Rama
+- git checkout -b "kcharts"
+Agregar cambios
+- git add .
+Status de los cambios
+- git status
+crearCommit con cambios
+- git commit -m "Mensaje para el commit"
+Subir los cambios a la rama master
+- git push origin
+- git push origin "mirama"
+- git push git@github.com:jsolisba/issa.git
+
+ANSIBLE
+Hacerle ping a un inventario
+- ansible -i inventory localhost -a "-m ping" -u centos
+uso de memoria
+- ansible -i inventory localhost -a "free -h" -u centos
+fecha del server
+- ansible -i inventory localhost -a "date" -u centos
+
+Crear server
+sudo apt-get install openssh-server
+
+Vagrant
+Instalar Vagrant
+- sudo apt update && sudo apt install vagrant
+Iniciar maquina virtual
+- vagrant init geerlingguy/centos7
+Correr maquinas virtuales
+- vagrant up
+Ver los datos de la maquina virtual
+- vagrant ssh-config
+Instalar las configuracioens que tenemos en el vagrant file
+- vagrant provision
+Destruir la maquina virtual
+- vagrant destroy
+SSH a los server
+- vagrant ssh ansible-control
+- vagrant ssh web01
+Copiar Archivos de manera segura
+- scp /home/juans/issa/issabackend/main.py vagrant@192.168.56.102
+Apagar las maquinas virtuales
+- VBoxManage list runningvms | cut -d '"' -f 2 | xargs -I {} VBoxManage controlvm {} poweroff
+Matar todo lo relacionado a virtual box
+- pkill VirtualBox
+
+Docker 
+Descargar,correr una imagen y crear un contenedor
+- sudo docker run postgress
+- docker run postgres:alpine3.19
+Agregar un usuario al grupo de docker 
+- sudo usermod -aG docker juans
+ver los grupos
+- groups
+Crear un postgress y pasarle usuario y clave
+- sudo docker run --name mi_postgres -e POSTGRES_PASSWORD=mi_contraseña -d postgres:alpine3.19
+Bajar una imagen del registry(docker hub) al sistema local 
+- sudo docker pull ubuntu
+Para ver las imagenes que estan disponibles en mi sistema local 
+- sudo docker images | head
+ver los contenedores corriendo 
+- sudo docker ps
+ver los contenedores corriendo y los detenidos
+- sudo docker ps - a 
+Correr un contenedor
+- sudo docker start "containerid"
+Detener un contenedor
+- sudo docker stop "containerid"
+Eliminar un contenedor
+- sudo docker rm "containerid"
+ver logs de un contenedor
+- sudo docker logs "containerid"
+ver logs de un contenedor en tiempo real
+- sudo docker logs -f "containerid"
+Ejecutar consola interactiva via ssh
+- sudo docker exec -it "containerid" sh
+Correr el contenedor en segundo plano para no bloquear la terminal 
+- sudo docker run -d "imagen"
+crear una imagen con una etiqueta en el directorio actual
+- sudo docker build -t getting-started .
+Correr esta imagen en un contenedor
+- sudo docker run -t getting-started .
+Correr este contenedor en el puerto 3000 que apunta al puerto virtual del contenedor 3000
+- sudo docker run -dp 3000:3000 getting-started
+- sudo docker run -d -p "localport":"containerport" getting-started
+Le asignamos el volumen en la base de datos /etc/todos
+- sudo docker run -d -v /home/juans/ejemplo-docker/app/etc:/etc/todos -p 3000:3000 getting-started
+- sudo docker run -d -v "rutaamiapp":"rutabd" -p 3000:3000 getting-started
+ver base de datos 
+- ls etc/todo.db
+Montar otro volumen en el contenedor para hacer cambios en  caliente en la base de datos
+- sudo docker run -d -v /home/juans/ejemplo-docker/app/etc:/etc/todos -p 3000:3000 -v /home/juans/ejemplo-docker/app/src:/app/src getting-started
+Loguear en el docker hub para publicar mis imagenes
+- docker login 
+Crear una red para que se comuniquen mis contendores	 
+- sudo docker network create todo-app
+Conectar mi contenedor de mysql con la red 
+- sudo docker run -d --network todo-app --network-alias mysql -v todo-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=todos mysql:5.7
+Conectar mi aplicacion a mysql y al a la red
+- sudo docker run -dp 3000:3000 --network todo-app -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=todos getting-started:v2
+
+Docker Compose
+- vim docker compose.yaml
+* version: "3.7"
+*
+* services:
+*
+* # sudo docker run -dp 3000:3000 --network todo-app -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=todos getting-started:v2
+*
+* app:
+*   image: getting-started:v2
+*   ports:
+*     - 3000:3000
+*   environment:
+*     MYSQL_HOST: mysql
+*     MYSQL_USER: root
+*     MYSQL_PASSWORD: secret
+*     MYSQL_DB: todos
+*
+*
+* # sudo docker run -d --network todo-app --network-alias mysql -v todo-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=todos mysql:5.7
+*
+*
+* mysql:
+*   image: mysql:5.7
+*   volumes:
+*     - ./todo-mysql-data:/var/lib/mysql
+*   environment:
+*     MYSQL_ROOT_PASSWORD: secret
+*     MYSQL_DATABASE: todos
+
+Correr docker compose
+- sudo docker compose up -d
+Detener las maquinas
+- sudo docker compose down
+TRAEFIK sirve para docker para docker compose y tambien como un controlador de ingress
+
+KUBERNETES
+- cluster
+-- control plane(servidores de k8s)
+-- nodos (instancias)
+-- kubelect (agente de k8s que permite conectar los workers entre si)
+-- kubeproxy (recube trafico y lo manda  a los pods que requieran ese trafico)
+-- api de k8s
+-- scheduler (mueve los componentes entre workers)
+-- Cloud controller manager (Se conecta  a las apis de control de cloud)
+-- Controller manager
+-- etcd (Base de datos basado en key value que permite guardar el estado del cluster de k8s
+- Kubectl cliente para orquestar k8s
+- KUBECONFIG (Archivo clusters de k8s o contextos(url credenciales apra conectarse)) 
+Readiness Probe es la forma de decirle a k8sm que mi pod esta listo para recibir trafico 
+Liveness probe es la forma de decirle a k8sm que mi pod esta vivo
+Networking
+- Cada Pod tiene una IP y cada container comparte la ip dentro del pod
+kubeproxy services
+- Cluster IP (IP Fija dentro del cluster que sirve como load balancer entre todos los pods que se les asigne el servicio)
+selector:
+    role: hello
+- Node Port (puerto expuesto al mundo para cada nodo que recibe el trafico) 
+ -- kubectl get nodes -o wide (se usa external IP) 
+- Load Balancer (Nube crear balanceador para redireccionar el trafico(se usa external IP) )
+Usar KUBECONFIG para conectarse al cluster en la nube
+- export KUBECONFIG=~/Downloads/ruta/delarchivo/delproveedor
+Usar KUBECONFIG para conectarse al cluster en minikube
+- export KUBECONFIG=$HOME/.kube/config 
+para levantar el cluster de K8s
+- sudo minikube start
+Crear cluster de 3 nodos
+- sudo minikube start --nodes 3 --driver=docker
+Ver cluster con k8s
+- minikube dashboard
+- minikube addons enable metrics-server
+daemonset un pod por cada nodo para monitoreo
+deployment puede crear dos pods por cada nodo
+statefullset tiene un volumen para base datos
+HELM
+Agregar repos
+- helm repo add stable https://charts.helm.sh/stable
+Actualizar repos
+- helm repo update
+Buscar Repo
+- helm install "paquetename"
+Instalar Chart
+helm install "paquetename" --generate-name
+workaround para crear una pequena vpn que levanta una ip publica en minikube, esto debe quedar corriendo en otra terminal
+- minikube tunnel
+Inspeccionar el paquete para ver opciones para customizar
+- helm inspect "paquetename"
+Cambiar valores 
+- helm inspect values "paquetenombre"
+Instalar el paquete con nuestros cambios
+- helm install -f "archivo" "paquetenombre"--generate-name
+k3s
+- kubectl config get-contexts
+- kubectl get nodes
+- kubectl get pods
+- kubectl get ns
+- kubectl -n kube-system get pods
+- kubectl -n kube-system get pods -o wide
+- kubectl -n kube-system delete pod "podename" 
+Crear un Pod 
+- vim 01-pod.yaml 
+* apiVersion: v1
+* kind: Pod
+* metadata:
+*   name: nginx
+* spec:
+*   containers:
+*   - name: nginx
+*     image: nginx:alpine
+- kubectl apply -f "nombrearchivo"
+Ejecutar consola interactiva via ssh
+- kubectl exec -it "nombrepod" -- sh
+ver archivos dentro de la consola interactiva
+- ps fax
+salir de la consola
+- Ctrl + D
+Borrar Pod
+- kubectl delete pod "podname" 
+Borrar Deployment
+- kubectl delete -f "nombrearchivo"
+ver estado y eventos del pod
+- kubectl describe pod "podname"
+Ver pods servicios
+- kubectl get all
+Ver los servicios que tengo asociados al servicio
+- kubectl describe svc "servicename"
+INGRESS para exponer las apps al mundo
+LOCAL CON NINKIUBE
+Hay que instalar el controlador ingress de la nube en nuestro cluster de kubernetes se puede hacer con helm
+- minikube addons enable ingress
+Ver el ingress controller pod creado
+- kubectl get pods -n ingress-nginx
+Visitar el servicio via Node port y encontrar la external IP de minikube
+- minikube service web --url
+Verificar que la ip fue seteada
+- kubectl get ingress
+Obtener el puerto NodePort utilizado 
+- kubectl get service web
+Verificar que el INGRESS CONTROLLER esta redireccionando trafico 
+- curl --resolve "appname:80:$( minikube ip)" -i http://nameapp
+Verificar que el INGRESS CONTROLLER esta redireccionando trafico a mis ingress
+- curl --resolve "appname:80:$( minikube ip)" -i http://nameapp/v0
+- curl --resolve "appname:80:$( minikube ip)" -i http://nameapp/v2
+- watch -n1 curl --resolve "helloapp:80:$( minikube ip)" -i http://helloapp
+CONTROLADOR NUBE
+Obtener el puerto NodePort utilizado en controlador nube
+- kubectl get svc -n kube-system 
+Ver si el controlador de ingress esta funcionando en nube
+- kubectl get pods -n ingress-nginx
+Ver los pods que estan corriendo con este ingress en nube
+- kubectl -n "ingressname" get pods
+Ver las reglas ingress creadas en nube y ver la ip publica que crea el controlador de ingress en su load balancer
+- kubectl get ing
+Ver los servicios asociados al ingress como load balancer o cluster ip en nube
+- kubectl -n "ingressname" get svc
+Aplicar Kustomization para automatizar deployments
+- kustomize build .
+- kustomize build . | kubectl apply -f -
+Ver logs
+kubectl logs -f "podname"
+Stern
+kubectl logs -f
+Cifrar secretos con kubeSeald
+
+Clusters NameSpaces 
+Usuarios y pods toman control del cluster por medio de roles
+cluster role para todo el cluster 
+roles para ns
+cuando asigno un rol a un usuario se llama role binding
+cuando asigno un rol a un pod creo un service account
+RBAC
+Role recursos y verbos
+Creamos namespace
+- kubectl create namespace "nsname"
+Crear certificato 
+- openssl genrsa -out employee.key 2048
+Firmamos ese certificado 
+- openssl req -new -key employee.key -out employee.csr -subj "/CN=employee/O=bitnami"
+- openssl x509 -req -in employee.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out employee.crt -days 500
+Crear usuario en Kubectl
+- kubectl config set-context employee-context --cluster=minikube --namespace=office --user=employee
+Seleccionar usuario
+- sudo cp kubeselect /usr/local/bin
+- kubeselect
+
+KUBERNETES CRDs
+
+
+Linux
+Obtener IP
+- hostname -i
+Obtener nombre
+- hostname -l
+Descargar o subir datos a un server web
+Get
+- curl 192.168.56.102
+- watch -n1 curl -H host: http:
+- watch -n1 curl --resolve hello-app:80:$( minikube ip)" -i http://hello-app
+Get de encabezado 
+Instalar Curl 
+- sudo apt-get install ca-certificates curl
+- curl -I 192.168.56.102
+configurar un puerto en el firewall
+- sudo ufw status
+- sudo ufw allow 80/tcp
+- sudo systemctl start ufw
+Copiar Archivos de manera segura
+- scp /home/juans/issa/issabackend/main.py vagrant@192.168.56.102
+matar app
+- kill <PID>
+Buscar y listar los IDs de los procesos en ejecucion cuyo nombre coincida con "nombreapp".
+- pgrep "nombreapp".
+Instalar Ping
+- apt-get update -y
+- apt-get install -y iputils-ping
+Instalar Curl
+- apt-get update -y
+- sudo apt-get install curl

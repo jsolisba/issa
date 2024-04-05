@@ -38,6 +38,7 @@ Step 8: Install flask
 - /usr/bin/python3 -m pip install --beautifulsoup4
 
 
+
 Step 10: configure and enable virtual host
 -       sudo nano /etc/apache2/sites-available/webApp.conf
 
