@@ -1,0 +1,16 @@
+#Node Port que asigna un puerto en cada nodo que apunta al  nginx ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+spec:
+  type: NodePort 
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30000
+    protocol: TCP
+    name: http
+  selector:
+    app: nginx-ingress

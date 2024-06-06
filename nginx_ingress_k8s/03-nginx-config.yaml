@@ -1,0 +1,7 @@
+# Creamos el configmap y autogenera el nginx.conf
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: nginx-ingress
+data:

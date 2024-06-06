@@ -1,0 +1,20 @@
+---
+- name: get public key based on private key
+  hosts: localhost
+  vars_prompt:
+    - name: private
+      prompt: "Enter the private key name"
+      private: no
+    - name: public
+      prompt: "Enter the public key name"
+      private: no
+  tasks:
+    - name: user
+      command: "whoami"
+      register: current_user
+    - name: new_public_key 
+      command:  "ssh-keygen -y -f /home/{{current_user.stdout}}/.ssh/{{private}}> public_key_generated"
+      args:
+        creates: public_key_generated
+    - name: 
+      command: "diff {{ public }} public_key_generated"

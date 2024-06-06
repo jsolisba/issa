@@ -1,0 +1,16 @@
+---
+- name: Remove public key pair
+  hosts: 192.168.140.32
+  tasks:
+    - name: Check if public key is already appended
+      ansible.builtin.shell:
+        cmd: grep -qxF "$(cat /home/juans/.ssh/nitro-admin/nitro-admin.pub)" ~/.ssh/authorized_keys 
+      register: public_key_exists
+      changed_when: false
+
+    - name: Remove public key from authorized_keys
+      ansible.builtin.lineinfile:
+        path: ~/.ssh/authorized_keys
+        line: "{{ lookup('file', '/home/juans/.ssh/nitro-admin/nitro-admin.pub') }}"
+        state: absent
+      when: public_key_exists.rc == 0

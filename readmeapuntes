@@ -16,6 +16,8 @@ Agregar cambios
 - git add .
 Status de los cambios
 - git status
+Revertir Git Add para elegir que vamos a agregar
+- git reset HEAD
 crearCommit con cambios
 - git commit -m "Mensaje para el commit"
 Subir los cambios a la rama master
@@ -58,6 +60,9 @@ Matar todo lo relacionado a virtual box
 - pkill VirtualBox
 
 Docker 
+Buscar imagen
+-docker search "imagen"
+
 Descargar,correr una imagen y crear un contenedor
 - sudo docker run postgress
 - docker run postgres:alpine3.19
@@ -178,6 +183,10 @@ Usar KUBECONFIG para conectarse al cluster en minikube
 - export KUBECONFIG=$HOME/.kube/config 
 para levantar el cluster de K8s
 - sudo minikube start
+Escalar un pod
+- kubectl scale –replicas=0 <pod-name>
+- kubectl scale --replicas=0 statefulset.apps/jenkins -n jenkins
+
 Crear cluster de 3 nodos
 - sudo minikube start --nodes 3 --driver=docker
 Ver cluster con k8s
@@ -204,13 +213,17 @@ Cambiar valores
 Instalar el paquete con nuestros cambios
 - helm install -f "archivo" "paquetenombre"--generate-name
 k3s
+Bajar Cluster kubernetes
+- k3s-killall.sh
+levantar cluster 
+- sudo k3s server
 - kubectl config get-contexts
 - kubectl get nodes
 - kubectl get pods
 - kubectl get ns
-- kubectl -n kube-system get pods
-- kubectl -n kube-system get pods -o wide
-- kubectl -n kube-system delete pod "podename" 
+- kubectl -n "nsname" get pods
+- kubectl -n "nsname" get pods -o wide
+- kubectl -n "nsname" delete pod "podename" 
 Crear un Pod 
 - vim 01-pod.yaml 
 * apiVersion: v1
@@ -234,8 +247,10 @@ Borrar Deployment
 - kubectl delete -f "nombrearchivo"
 ver estado y eventos del pod
 - kubectl describe pod "podname"
-Ver pods servicios
+Ver todos los servicios  que esta corriendo en el namaspace f 
 - kubectl get all
+Detener pods  
+- sudo kubectl scale statefulset jenkins -n jenkins --replicas=1 --all
 Ver los servicios que tengo asociados al servicio
 - kubectl describe svc "servicename"
 INGRESS para exponer las apps al mundo
@@ -296,8 +311,17 @@ Crear usuario en Kubectl
 Seleccionar usuario
 - sudo cp kubeselect /usr/local/bin
 - kubeselect
+Obtener los recursos asociados al servicio 
+- sudo kubectl get all --selector=app.kubernetes.io/instance=nano-development,app.kubernetes.io/name=player -n nano-development
 
-KUBERNETES CRDs
+
+aws
+Borrar objetos en background de un s3 bucket y guardar en un log el avance
+- aws s3 rm s3://nfs-infra-backup-data/jenkins-oficial --recursive > /root/archivo.log 2>&1 &
+copiar datos en background a un s3 bucket y guardar en el archivo nohup.out el avance
+- nohup aws s3 cp /media/infra2-disk2/apps/jenkins s3://nfs-infra-backup-data/jenkins-oficial/ --recursive &
+ver que estoy ejecutano en background con el nombre aws
+- ps -o pid,start,cmd | grep aws
 
 
 Linux
@@ -312,7 +336,7 @@ Get
 - watch -n1 curl --resolve hello-app:80:$( minikube ip)" -i http://hello-app
 Get de encabezado 
 Instalar Curl 
-- sudo apt-get install ca-certificates curl
+- 10.244.0.83
 - curl -I 192.168.56.102
 configurar un puerto en el firewall
 - sudo ufw status
@@ -323,10 +347,31 @@ Copiar Archivos de manera segura
 matar app
 - kill <PID>
 Buscar y listar los IDs de los procesos en ejecucion cuyo nombre coincida con "nombreapp".
-- pgrep "nombreapp".
+- pgrep "nombreapp".- 
 Instalar Ping
 - apt-get update -y
 - apt-get install -y iputils-ping
 Instalar Curl
 - apt-get update -y
 - sudo apt-get install curl
+Secure Copy
+- scp 192.168.150.10:/data1/apps/jenkins030624.zip /data2/apps/infraa
+- scp -r -i <keypair> <user>@<serverorigen>:/ruta/a/micarpeta <destino/enmimaquina>
+Cambiar ownership de un file 
+- sudo chown -R www-data:www-data uploads
+Dar Permisos a un file o carpeta
+- chown -R 777 juan.s:juan.s
+- tar -cvzf sampleArchive.tar.gz /home/sampleArchive
+- tar cvx sampleArchive.tar.
+
+Comprobar que el key privado corresponda al key publico
+ssh-keygen -y -f /home/juans/.ssh/id_issa > clave_publica_generada.pub
+
+sudo ssh-keygen -y -f /home/juans/.ssh/nitro-admin/nitro-admin | sudo tee /home/juans/.ssh/nitro-admin/clave_publica_generada.pub
+
+diff id_issa.pub /home/juans/.ssh/nitro-admin/clave_publica_generada.pub
+
+
+ssh-keygen -y -f ~/.ssh/id_rsa | diff - ~/.ssh/id_rsa.pub
+
+

@@ -1,0 +1,21 @@
+---
+- name: send public key pair
+  hosts: 192.168.140.32
+  tasks:
+    - name: Check if public key is already appended
+      ansible.builtin.shell:
+        cmd: grep -qxF "$(cat /home/juans/.ssh/nitro-admin/nitro-admin.pub)" ~/.ssh/authorized_keys 
+      register: public_key_exists
+      changed_when: false
+  
+    - name: Print message if public key is already appended
+      ansible.builtin.debug:
+        msg: "Public key is already appended to authorized_keys"
+      when: public_key_exists.rc == 0
+     
+    - name: Append public key to authorized_keys if not present
+      ansible.builtin.lineinfile:
+        path: ~/.ssh/authorized_keys
+        line: "{{ lookup('file', '/home/juans/.ssh/nitro-admin/nitro-admin.pub') }}"
+        state: present
+      when: public_key_exists.rc == 0
