@@ -1,6 +1,7 @@
 ---
 - name: send public key pair
   hosts: 192.168.140.32
+ 
   tasks:
     - name: Check if public key is already appended
       ansible.builtin.shell:
