@@ -20,6 +20,7 @@
    <!-- MAIN CSS  -->
    <link rel="stylesheet" href="css/style.css"> 
 
+
  </head>
  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
@@ -107,27 +108,36 @@
 <div class="site-section bg-light">
 
   <div class="container employee-form-container">
-    <h2>Gestión de Empleados</h2>
+    <h2>Gestión de Colaboradores</h2>
     <form id="employeeForm">
       <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" placeholder="Nombre del empleado" required />
-  
-      <label for="position">Puesto:</label>
-      <input type="text" id="position" name="position" placeholder="Puesto del empleado" required />
-  
-      <label for="salary">Salario:</label>
-      <input type="number" id="salary" name="salary" placeholder="Salario mensual" required />
-  
+      <input type="text" id="name" name="name" placeholder="Nombre del colaborador" required />
+      
+      <label for="name">Cedula:</label>
+      <input type="text" id="ced" name="ced" placeholder="Cedula del colaborador" />
+
+      <label for="name">Telefono:</label>
+      <input type="text" id="cel" name="cel" placeholder="Telefono del colaborador" />
+
+      <label for="correo">Correo:</label>
+      <input type="text" id="email" name="email" placeholder="Correo del colaborador"  />
+   
+      <label for="direccion">Direccion:</label>
+      <input type="text" id="dir" name="dir" placeholder="Direccion del colaborador"  />
+   
       <button type="submit">Guardar</button>
     </form>
   
-    <h3>Lista de Empleados</h3>
+    <h3>Lista de Colaboradores</h3>
     <table id="employeeTable">
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Puesto</th>
-          <th>Salario</th>
+          <th>Cedula</th>
+          <th>Telefono</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Direccion</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -137,53 +147,8 @@
     </table>
   </div>
   
-<!--       <div class="row mb-5 justify-content-center">
-        <div class="col-md-7 text-center">
-          <div class="block-heading-1">
-            <h2>Nuestros Servicios</h2>
-            <p>Nuestra razon de ser es el servicio por eso para nosotros despues de una decada ofrenciendo satisfaccion a nuestros clientes podemos dar fe que sabemnos lo que hacemos.</p>
-          </div>
-        </div>
-      </div>
-      <div class="owl-carousel owl-all">
-        <div class="block__35630 text-center">
-          <h3 class="mb-3">Confecci&oacute;n de Ofertas</h3>
-          <p>Somos expertos en preparar bundles de ofertas para nuestros clietnes. </p>
-        </div>
-
-        <div class="block__35630 text-center">
-          <h3 class="mb-3">Maquilado</h3>
-          <p>Solamente ponga sus servicios en nuestras manos que nosotros nos encargamos de darle la apariencia que el cliente final anda buscando. </p>
-        </div>
-
-        <div class="block__35630 text-center">
-          
-          <h3 class="mb-3">Llenado de L&iacute;quidos</h3>
-          <p>De la misma manera que ofrecemos calidad en productos s&oacute;lidos le ofrecemos el llenado de sus liquidos en cualquier frasco o tipo de presentaci&oacute;n de su preferencia. </p>
-        </div>
-
-        <div class="block__35630 text-center">
-         
-          <h3 class="mb-3">Transporte y Almacenamiento</h3>
-          <p>Nuestra log&iacute;stica de talla mundial es capaz de manejar su mercader&iacute;a de forma eficiente y segura!</p>
-        </div>
-
-        <div class="block__35630 text-center">
-         
-          <h3 class="mb-3">Etiquetas y Etiquetado</h3>
-          <p>Nuestro staff es capaz de proveer las etiquetas y ofrecer el servicio de etiquetado de sus productos tanto en nuestra bodega como cualquier parte de centroamerica!</p>
-        </p>
-        </div>
-
-        <div class="block__35630 text-center">
-          
-          <h3 class="mb-3">Outsourcing de Personal</h3>
-          <p>Nuestros profesionales log&iacute;sticos de talla mundial son capaces de manejar su staff y cumplir con las necesidades de personal en cualquier departamento de su organizaci&oacute;n! </p>
-        </div>
-
-      </div>
-    </div> -->
   
+  </div>
 
   <footer class="site-footer">
     <div class="container">
@@ -276,7 +241,7 @@
   <script src="js/aos.js"></script>
 
   <script src="js/main.js"></script>
-
+  <script src="js/empleados.js"></script>
 </body>
 
 </html>

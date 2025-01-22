@@ -1400,3 +1400,136 @@ h1, h2, h3, h4, h5,
 
 .bg-light {
   background-color: #f6f5f5 !important; }
+/* Contenedor del formulario */
+.employee-form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.employee-form-container h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Estilos del formulario */
+.employee-form-container form {
+  margin-bottom: 20px;
+}
+
+.employee-form-container form label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  color: #555;
+}
+
+.employee-form-container form input,
+.employee-form-container form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.employee-form-container form input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+/* Estilo del botón */
+.employee-form-container form button {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.employee-form-container form button:hover {
+  background-color: #45a049;
+}
+
+/* Tabla de empleados */
+.employee-form-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.employee-form-container table th,
+.employee-form-container table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.employee-form-container table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #333;
+}
+
+.employee-form-container table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.employee-form-container table button {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.employee-form-container table button.edit {
+  background-color: #FFC107;
+  color: white;
+}
+
+.employee-form-container table button.delete {
+  background-color: #F44336;
+  color: white;
+}
+
+.employee-form-container table button:hover {
+  opacity: 0.8;
+}
+input:required:invalid {
+  border-color: red;
+  outline: none;
+}
+
+input:required:invalid::placeholder {
+  color: red; /* Cambiar el color del texto del placeholder */
+}
+
+input:required:valid {
+  border-color: green; /* Opcional: mostrar verde si es válido */
+}
+.edit-btn, .delete-btn {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
